@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    发表文章
   </div>
 </template>
 

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    
-  </div>
+  <h2>发表文章</h2>
 </template>
 
 <script>
@@ -10,6 +8,6 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
+  
 </style>

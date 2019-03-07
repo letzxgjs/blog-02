@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <el-tabs v-model="activeName" @tab-click="handleClick" id="sign">
+    <!-- <el-tabs v-model="activeName" @tab-click="handleClick" id="sign">
       <router-link to='./'>登录</router-link>
       <router-link to='./signup'>注册</router-link>
-    </el-tabs>
+    </el-tabs> -->
     <router-view/>
   </div>
 </template>
@@ -31,13 +31,13 @@ export default {
   -moz-osx-font-smoothing: grayscale
   text-align: center
   color: #2c3e50
-  margin-top: 60px
-  form
-    width: 500px
+  // margin-top: 60px
+  // form
+  //   width: 500px
 
 .el-form
   margin: 20px auto
-  width: 500px
+  // width: 500px
   .router-link-active
     &:visted
       text-decoration: none
