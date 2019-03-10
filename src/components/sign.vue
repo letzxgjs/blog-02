@@ -53,7 +53,10 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+// import http from "../lib/index.js";
+import { mapMutations } from "Vuex";
+import { login } from "../api/user.js";
 export default {
   name: "login",
   data() {
@@ -114,40 +117,43 @@ export default {
       }
     };
   },
-  props: ["popSwitch"], 
+  props: ["popSwitch"],
   computed: {
-    activeName(){
+    activeName() {
+      console.log("计算属性调用");
       // return popNum == 1 ? 'login' : 'reg'
-      if(this.popSwitch == 1) {
-        return 'login'
-      }else {
-        return 'reg'
+      if (this.popSwitch == 1) {
+        return "login";
+      } else {
+        return "reg";
       }
     }
-  }, 
+  },
   methods: {
-    // handleClick(tab, event) {
-    //   console.log(tab, event);
-    // },
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          axios
-            .post("/proxyApi/user/login", {
-              username: this.ruleForm1.username,
-              password: this.ruleForm1.pass
-            })
+          login({
+            username: this.ruleForm1.username,
+            password: this.ruleForm1.pass
+          })
             .then(res => {
               if (res.data.code == 1) {
+                console.log(1212);
+                this.setLogin();
                 this.$message({
                   message: res.data.msg,
                   type: "success"
                 });
-                this.ruleForm1.username = ''
-                this.ruleForm1.pass = ''
+                this.ruleForm1.username = "";
+                this.ruleForm1.pass = "";
                 this.$router.push({ name: "home" });
+                console.log(this.$store.state.hasLogin);
                 // this.$router.push({ name: "publish-article" });
-                this.$emit('closeDialog')
+                this.$emit("closeDialog");
               } else {
                 this.$message({
                   message: res.data.errMsg,
@@ -169,7 +175,8 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+    ...mapMutations(["setLogin", "setLogout"])
   }
 };
 </script>
