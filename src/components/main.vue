@@ -44,7 +44,7 @@
 
 <script>
 import LoginAndReg from "@/components/login-and-reg.vue";
-import { mapState, mapMutations } from "Vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {

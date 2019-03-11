@@ -55,7 +55,7 @@
 <script>
 // import axios from "axios";
 // import http from "../lib/index.js";
-import { mapMutations } from "Vuex";
+import { mapMutations } from "vuex";
 import { login } from "../api/user.js";
 export default {
   name: "login",

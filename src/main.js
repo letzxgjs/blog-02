@@ -6,7 +6,7 @@ import router from "./router";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/index.css";
-import Vuex from "Vuex";
+import Vuex from "vuex";
 import store from "./store";
 
 Vue.config.productionTip = false;
