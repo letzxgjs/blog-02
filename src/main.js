@@ -6,12 +6,12 @@ import router from "./router";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/index.css";
-import Vuex from "vuex";
+// import Vuex from "vuex";
 import store from "./store";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
 // const store = new Vuex.Store({
 //   state: {

@@ -143,6 +143,7 @@ export default {
             .then(res => {
               if (res.data.code == 1) {
                 console.log(1212);
+                this.setUsername(this.ruleForm1.username);
                 this.setLogin();
                 this.$message({
                   message: res.data.msg,
@@ -176,7 +177,8 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    ...mapMutations(["setLogin", "setLogout"])
+    ...mapMutations(["setUsername", "setLogin"])
+    // ...mapMutations(["setUsername", "setLogin", "setLogout"])
   }
 };
 </script>

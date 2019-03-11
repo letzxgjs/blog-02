@@ -1,18 +1,28 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Cookie from "js-cookie";
+import { clearLoginInfo } from "@/lib/tool.js";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    hasLogin: false
+    username: Cookie.get("username"),
+    hasLogin: Cookie.get("username")
   },
   mutations: {
-    setLogin(state) {
-      state.hasLogin = true;
+    setUsername(state, val) {
+      Cookie.set("username", val);
+      state.username = val;
+    },
+    setLogin(state, val = true) {
+      // Cookie.set("username", val);
+      state.hasLogin = val;
     },
     setLogout(state) {
+      clearLoginInfo();
       state.hasLogin = false;
+      state.username = "";
     }
   }
 });

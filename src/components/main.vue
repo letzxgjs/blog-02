@@ -19,10 +19,10 @@
           <div v-if="hasLogin">
             <el-button type="text" class="button">个人中心</el-button>
             <el-button type="text" class="button avatar">
-              <el-dropdown @command="logout">
+              <el-dropdown @command="setLogout">
                 <span class="user-info">
                   <img src="../assets/logo.png" alt="avatar">
-                  <span class="el-dropdown-link">admin</span>
+                  <span class="el-dropdown-link">{{username}}</span>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>退出</el-dropdown-item>
@@ -54,21 +54,18 @@ export default {
     };
   },
   computed: {
-    // ...mapState(["hasLogin"])
+    ...mapState(["hasLogin", "username"])
 
-    ...mapState({
-      hasLogin: state => state.hasLogin
-    })
+    // ...mapState({
+    //   hasLogin: state => state.hasLogin,
+    //   username: state => state.username
+    // })
 
     // hasLogin: function(state) {
     //   debugger;
     //   console.log("main.vue");
     //   console.log(this.$store.state);
     //   console.log(this.$store.state.hasLogin);
-    //   return this.$store.state.hasLogin;
-    // }
-
-    // log() {
     //   return this.$store.state.hasLogin;
     // }
   },
@@ -86,19 +83,7 @@ export default {
     signup() {
       this.popid = 0;
       this.$refs.dialog.init();
-    },
-    logout() {
-      this.setLogout();
     }
-    // ...mapMutations(["setLogin", "logout"])
-    // logout() {
-    //   debugger;
-    //   console.log(2222);
-    //   console.log(this.$store.state.hasLogin);
-    //   this.$store.commit("logout");
-    //   console.log(this.$store.state.hasLogin);
-    //   console.log(this.hasLogin);
-    // }
   },
   components: {
     LoginAndReg
