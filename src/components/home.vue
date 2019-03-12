@@ -5,18 +5,27 @@
     </div>
     <div class="content">
       <div class="articles">
-        <ul v-for="i in 10" :key="i">
+        <ul v-for="(item, index) in articles" :key="index">
           <li>
             <div class="avatar">
               <a href="#">
-                <img src="../assets/logo.png">
+                <img :src="changeImg(item.author.avatar)">
               </a>
             </div>
             <div class="brief">
-              <h2><span><el-tag size="small">vue</el-tag></span>ElementUI官网的配色看着费眼神</h2>
+              <h2>
+                <span>
+                  <el-tag size="small">{{item.tips}}</el-tag>
+                </span>
+                {{item.title}}
+              </h2>
               <div class="author">
-                <span>admin</span><span>2019-3-3T20:40:00</span>
-                <span class="comments"><i class="el-icon-document"></i>2</span>
+                <span>{{item.author.username}}</span>
+                <span>{{new Date(item.created).toLocaleString()}}</span>
+                <span class="comments">
+                  <i class="el-icon-document"></i>
+                  {{item.commentNum}}
+                </span>
               </div>
             </div>
           </li>
@@ -25,56 +34,78 @@
           class="pages"
           background
           layout="prev, pager, next"
-          :total="1000">
-        </el-pagination>
+          :page-size="pageSize"
+          :total="maxNum"
+          @current-change="currentChange"
+        ></el-pagination>
       </div>
       <div class="articles-list">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>文章列表</span>
           </div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{'列表内容 ' + o }}
-          </div>
+          <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
         </el-card>
       </div>
     </div>
-    <el-dialog
-      :visible.sync="dialogVisible"
-      width="30%" ref="zxg9051">
+    <el-dialog :visible.sync="dialogVisible" width="30%" ref="zxg9051">
       <login-and-reg modalid="popid" popName="popName" ref="modalChange"></login-and-reg>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import LoginAndReg from "@/components/login-and-reg";
+import { articleList } from "../api/data.js";
+
 export default {
   data() {
     return {
-      dialogVisible: false, 
-      modalid: 0
-    }
-  }, 
-  props: ['popid'], 
+      dialogVisible: false,
+      modalid: 0,
+      pageNum: 1,
+      articles: [],
+      maxNum: 1,
+      pageSize: 5
+    };
+  },
+  props: ["popid"],
   computed: {
-    popName(){
-      return popid == 0 ? "login" : "reg"
+    popName() {
+      return popid == 0 ? "login" : "reg";
     }
-  }, 
+  },
   methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }, 
-      publish(){
-        this.$router.push({name: "publish-article"})
-      }, 
-      init() {
-        // console.log(this.$refs.modalChange)
-        // this.$refs.modalChange.switchActiveName(this.popid)
-        this.dialogVisible = true
-      }
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    publish() {
+      this.$router.push({ name: "publish-article" });
+    },
+    init() {
+      // console.log(this.$refs.modalChange)
+      // this.$refs.modalChange.switchActiveName(this.popid)
+      // this.dialogVisible = true;
+      // if(this.hasLogin){
+      articleList(this.pageNum).then(res => {
+        this.maxNum = res.data.maxNum;
+        this.articles = res.data.artList;
+      });
+      // }
+    },
+    changeImg(imgsrc) {
+      return process.env.ROOT + imgsrc;
+    },
+    currentChange(val) {
+      this.pageNum = val;
+      this.init();
     }
-}
+  },
+  mounted() {
+    this.init();
+  },
+  components: { LoginAndReg }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -120,7 +151,7 @@ export default {
             }
           }
         }
-        .brief{
+        .brief {
           height: 50px;
           width: 100%;
           text-align-last: left;
@@ -152,7 +183,7 @@ export default {
     }
   }
   .articles-list {
-    .box-card{
+    .box-card {
       background-color: #fff;
     }
   }

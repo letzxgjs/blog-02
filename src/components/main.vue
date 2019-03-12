@@ -19,9 +19,9 @@
           <div v-if="hasLogin">
             <el-button type="text" class="button">个人中心</el-button>
             <el-button type="text" class="button avatar">
-              <el-dropdown @command="setLogout">
+              <el-dropdown @command="logout">
                 <span class="user-info">
-                  <img src="../assets/logo.png" alt="avatar">
+                  <img :src="changeImg(avatar)">
                   <span class="el-dropdown-link">{{username}}</span>
                 </span>
                 <el-dropdown-menu slot="dropdown">
@@ -44,7 +44,9 @@
 
 <script>
 import LoginAndReg from "@/components/login-and-reg.vue";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
+import { articleList } from "../api/data.js";
+
 export default {
   data() {
     return {
@@ -54,25 +56,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["hasLogin", "username"])
-
-    // ...mapState({
-    //   hasLogin: state => state.hasLogin,
-    //   username: state => state.username
-    // })
-
-    // hasLogin: function(state) {
-    //   debugger;
-    //   console.log("main.vue");
-    //   console.log(this.$store.state);
-    //   console.log(this.$store.state.hasLogin);
-    //   return this.$store.state.hasLogin;
-    // }
+    ...mapState(["hasLogin", "username", "avatar"])
   },
   methods: {
     ...mapMutations({
       setLogout: "setLogout"
     }),
+    ...mapActions(["getInfo"]),
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -83,13 +73,19 @@ export default {
     signup() {
       this.popid = 0;
       this.$refs.dialog.init();
+    },
+    logout() {
+      this.setLogout();
+    },
+    changeImg(imgsrc) {
+      return process.env.ROOT + imgsrc;
     }
   },
   components: {
     LoginAndReg
   },
-  beforeUpdate() {
-    console.log(this.popid);
+  created() {
+    this.getInfo();
   }
 };
 </script>

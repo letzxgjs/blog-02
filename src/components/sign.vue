@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <!-- <el-tabs v-model="activeName" @tab-click="handleClick"> -->
+    <!-- <el-tabs v-model="activeName"> -->
     <el-tabs v-model="activeName">
+      <!-- <el-tabs :value="activeName"> -->
       <el-tab-pane label="登陆" name="login">
         <el-form
           :model="ruleForm1"
@@ -14,7 +16,7 @@
           <el-form-item label="用户名" prop="username">
             <el-input v-model="ruleForm1.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="pass" @keyup.enter.native="submitForm('ruleForm1')">
             <el-input type="password" v-model="ruleForm1.pass" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item>
@@ -38,7 +40,7 @@
           <el-form-item label="密码" prop="pass">
             <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
+          <el-form-item label="确认密码" prop="checkPass" @keyup.enter.native="submitForm('ruleForm2')">
             <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
           </el-form-item>
 
@@ -55,8 +57,9 @@
 <script>
 // import axios from "axios";
 // import http from "../lib/index.js";
-import { mapMutations } from "vuex";
-import { login } from "../api/user.js";
+import { mapMutations, mapActions } from "vuex";
+import { login, reg } from "../api/user.js";
+import { articleList } from "../api/data.js";
 export default {
   name: "login",
   data() {
@@ -119,13 +122,17 @@ export default {
   },
   props: ["popSwitch"],
   computed: {
-    activeName() {
-      console.log("计算属性调用");
+    activeName: {
       // return popNum == 1 ? 'login' : 'reg'
-      if (this.popSwitch == 1) {
-        return "login";
-      } else {
-        return "reg";
+      get: function() {
+        if (this.popSwitch == 1) {
+          return "login";
+        } else {
+          return "reg";
+        }
+      },
+      set: function(val) {
+        this.activeName = val;
       }
     }
   },
@@ -136,38 +143,53 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          login({
-            username: this.ruleForm1.username,
-            password: this.ruleForm1.pass
-          })
-            .then(res => {
-              if (res.data.code == 1) {
-                console.log(1212);
-                this.setUsername(this.ruleForm1.username);
-                this.setLogin();
+          if (formName == "ruleForm1") {
+            login({
+              username: this.ruleForm1.username,
+              password: this.ruleForm1.pass
+            })
+              .then(res => {
+                if (res.data.status == "success") {
+                  this.setUsername(this.ruleForm1.username);
+                  this.setLogin();
+                  this.getInfo();
+                  this.resetForm(formName);
+                  this.$message({
+                    message: res.data.msg,
+                    type: "success"
+                  });
+                  // this.ruleForm1.username = "";
+                  // this.ruleForm1.pass = "";
+                  this.$router.push({ name: "home" });
+                  this.$emit("closeDialog");
+                } else {
+                  this.$message({
+                    message: res.data.errMsg,
+                    type: "error"
+                  });
+                }
+              })
+              .catch(err => {
                 this.$message({
-                  message: res.data.msg,
-                  type: "success"
-                });
-                this.ruleForm1.username = "";
-                this.ruleForm1.pass = "";
-                this.$router.push({ name: "home" });
-                console.log(this.$store.state.hasLogin);
-                // this.$router.push({ name: "publish-article" });
-                this.$emit("closeDialog");
-              } else {
-                this.$message({
-                  message: res.data.errMsg,
+                  message: "服务器错误",
                   type: "error"
                 });
-              }
-            })
-            .catch(err => {
-              this.$message({
-                message: "服务器错误",
-                type: "error"
               });
+          } else {
+            reg({
+              username: this.ruleForm2.username,
+              password: this.ruleForm2.pass
+            }).then(res => {
+              this.$message({
+                message: res.data.data,
+                type: "success"
+              });
+              this.resetForm(formName);
+              // console.log(this.activeName);
+              // this.activeName = "login";
+              // console.log(this.activeName);
             });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -177,8 +199,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    ...mapMutations(["setUsername", "setLogin"])
-    // ...mapMutations(["setUsername", "setLogin", "setLogout"])
+    ...mapMutations(["setUsername", "setLogin", "getAvatar"]),
+    // ...mapMutations(["setUsername", "setLogin", "setLogout"]),
+    ...mapActions({ getInfo: "getInfo" })
   }
 };
 </script>
