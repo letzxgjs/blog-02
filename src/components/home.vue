@@ -6,7 +6,7 @@
     <div class="content">
       <div class="articles">
         <ul v-for="(item, index) in articles" :key="index">
-          <li>
+          <li @click="seeMore(item)">
             <div class="avatar">
               <a href="#">
                 <img :src="changeImg(item.author.avatar)">
@@ -48,7 +48,7 @@
         </el-card>
       </div>
     </div>
-    <el-dialog :visible.sync="dialogVisible" width="30%" ref="zxg9051">
+    <el-dialog :visible.sync="dialogVisible" width="40%" ref="zxg9051">
       <login-and-reg modalid="popid" popName="popName" ref="modalChange"></login-and-reg>
     </el-dialog>
   </div>
@@ -56,7 +56,7 @@
 
 <script>
 import LoginAndReg from "@/components/login-and-reg";
-import { articleList } from "../api/data.js";
+import { articleList, articleDetail } from "../api/data.js";
 
 export default {
   data() {
@@ -83,15 +83,10 @@ export default {
       this.$router.push({ name: "publish-article" });
     },
     init() {
-      // console.log(this.$refs.modalChange)
-      // this.$refs.modalChange.switchActiveName(this.popid)
-      // this.dialogVisible = true;
-      // if(this.hasLogin){
       articleList(this.pageNum).then(res => {
         this.maxNum = res.data.maxNum;
         this.articles = res.data.artList;
       });
-      // }
     },
     changeImg(imgsrc) {
       return process.env.ROOT + imgsrc;
@@ -99,6 +94,11 @@ export default {
     currentChange(val) {
       this.pageNum = val;
       this.init();
+    },
+    seeMore(item) {
+      this.$router.push({ name: "article-detail", params: { _id: item._id } });
+      // console.log(item);
+      // this.$router.push({ name: "article-detail", params: item });
     }
   },
   mounted() {

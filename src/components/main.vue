@@ -8,7 +8,7 @@
           mode="horizontal"
           @select="handleSelect"
         >
-          <el-menu-item index="1">首页</el-menu-item>
+          <el-menu-item index="1" @click="goHome">首页</el-menu-item>
           <el-menu-item index="2">Web</el-menu-item>
           <el-menu-item index="3">大数据</el-menu-item>
           <el-menu-item index="4">Java</el-menu-item>
@@ -79,6 +79,9 @@ export default {
     },
     changeImg(imgsrc) {
       return process.env.ROOT + imgsrc;
+    },
+    goHome() {
+      this.$router.push("/home");
     }
   },
   components: {

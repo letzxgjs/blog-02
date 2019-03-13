@@ -6,7 +6,24 @@ export const articleList = pageNum => {
   });
 };
 
-// import http from "@/lib/index.js";
-// export const articleList = padgeNum => {
-//   return http.post("/page/" + padgeNum);
-// };
+export const articleDetail = id => {
+  return http({
+    method: "get",
+    url: http.adornUrl("article/" + id)
+  });
+};
+
+export const commentsList = id => {
+  return http({
+    method: "get",
+    url: http.adornUrl("article/" + id)
+  });
+};
+
+export const postComment = data => {
+  return http({
+    method: "post",
+    url: http.adornUrl("comment"),
+    data
+  });
+};
