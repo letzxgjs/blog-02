@@ -34,20 +34,20 @@ export default {
   },
   methods: {},
   components: { Comment },
-  created() {
-    let self = this;
-    articleDetail(self.$route.params._id)
-      .then(res => {
-        if (res.data) {
-          self.article = res.data.article;
-        }
-      })
-      .catch(err => {
-        self.$message({
-          message: "服务器错误",
-          type: "error"
-        });
+  mounted() {
+    console.log(this);
+    console.log(this.$route.params);
+    if (JSON.stringify(this.$route.params) == "{}") {
+      this.$router.push({
+        name: "home"
       });
+    } else {
+      this.article = this.$route.params;
+    }
+  },
+  beforeMount() {
+    // debugger;
+    console.log(this);
   }
 };
 </script>

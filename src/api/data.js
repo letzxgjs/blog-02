@@ -1,4 +1,5 @@
 import http from "@/lib/index.js";
+import { postFormData } from "@/lib/index.js";
 export const articleList = pageNum => {
   return http({
     method: "get",
@@ -24,6 +25,22 @@ export const postComment = data => {
   return http({
     method: "post",
     url: http.adornUrl("comment"),
+    data
+  });
+};
+
+export const publishArticle = data => {
+  return http({
+    method: "post",
+    url: http.adornUrl("article"),
+    data
+  });
+};
+
+export const postAvatar = data => {
+  return postFormData({
+    method: "post",
+    url: http.adornUrl("upload"),
     data
   });
 };

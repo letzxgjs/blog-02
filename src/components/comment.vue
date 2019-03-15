@@ -31,7 +31,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["username"])
+    ...mapState(["hasLogin"])
   },
   // props: ["comments"],
   mounted() {
@@ -50,29 +50,36 @@ export default {
       return process.env.ROOT + src;
     },
     summitComment() {
-      if (this.textarea.trim()) {
-        let data = {
-          article: this.$route.params._id,
-          content: this.textarea
-        };
-        postComment(data).then(res => {
-          if (res.data.status == "1") {
-            this.$message({
-              message: res.data.msg,
-              type: "success"
-            });
-            this.textarea = "";
-            this.getComments();
-          } else {
-            this.$message({
-              message: res.data.msg,
-              type: "error"
-            });
-          }
-        });
+      if (this.hasLogin) {
+        if (this.textarea.trim()) {
+          let data = {
+            article: this.$route.params._id,
+            content: this.textarea
+          };
+          postComment(data).then(res => {
+            if (res.data.status == "1") {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+              this.textarea = "";
+              this.getComments();
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          });
+        } else {
+          this.$message({
+            message: "评论内容不能为空",
+            type: "info"
+          });
+        }
       } else {
         this.$message({
-          message: "评论内容不能为空",
+          message: "请先登录",
           type: "info"
         });
       }

@@ -17,7 +17,7 @@
         </el-menu>
         <div class="personal">
           <div v-if="hasLogin">
-            <el-button type="text" class="button">个人中心</el-button>
+            <el-button type="text" class="button" @click="userCenter">个人中心</el-button>
             <el-button type="text" class="button avatar">
               <el-dropdown @command="logout">
                 <span class="user-info">
@@ -64,7 +64,7 @@ export default {
     }),
     ...mapActions(["getInfo"]),
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     signin() {
       this.popid = 1;
@@ -76,12 +76,16 @@ export default {
     },
     logout() {
       this.setLogout();
+      this.$router.push("home");
     },
     changeImg(imgsrc) {
       return process.env.ROOT + imgsrc;
     },
     goHome() {
       this.$router.push("/home");
+    },
+    userCenter() {
+      this.$router.push("/user");
     }
   },
   components: {
@@ -103,12 +107,17 @@ export default {
   .navbar {
     // position: relative;
     display: flex;
-    height: 60px;
+    flex-wrap: wrap;
+    // height: 60px;
     border-bottom: 1px solid #e6e6e6;
     .el-menu-demo {
+      height: 60px;
       border: 0;
+      flex-shrink: 0;
     }
     .personal {
+      flex-shrink: 0;
+      // margin-left: 1;
       display: flex;
       margin-left: auto;
       // .beforeLogin {

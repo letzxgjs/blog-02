@@ -48,7 +48,7 @@
         </el-card>
       </div>
     </div>
-    <el-dialog :visible.sync="dialogVisible" width="40%" ref="zxg9051">
+    <el-dialog :visible.sync="dialogVisible" ref="zxg9051">
       <login-and-reg modalid="popid" popName="popName" ref="modalChange"></login-and-reg>
     </el-dialog>
   </div>
@@ -96,9 +96,9 @@ export default {
       this.init();
     },
     seeMore(item) {
-      this.$router.push({ name: "article-detail", params: { _id: item._id } });
+      // this.$router.push({ name: "article-detail", params: { _id: item._id } });
       // console.log(item);
-      // this.$router.push({ name: "article-detail", params: item });
+      this.$router.push({ name: "article-detail", params: item });
     }
   },
   mounted() {
