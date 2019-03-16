@@ -34,9 +34,7 @@ export default {
   },
   methods: {},
   components: { Comment },
-  mounted() {
-    console.log(this);
-    console.log(this.$route.params);
+  created() {
     if (JSON.stringify(this.$route.params) == "{}") {
       this.$router.push({
         name: "home"
@@ -44,10 +42,6 @@ export default {
     } else {
       this.article = this.$route.params;
     }
-  },
-  beforeMount() {
-    // debugger;
-    console.log(this);
   }
 };
 </script>
@@ -59,7 +53,7 @@ export default {
   display: flex;
   .article {
     flex: 3;
-    max-width: 66.6%;
+    max-width: 75%;
     .content {
       background-color: #fff;
       padding: 20px;

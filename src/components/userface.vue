@@ -52,7 +52,6 @@ export default {
     handlePreview(file) {
       console.log(file.raw instanceof File);
       // var reader = new FileReader();
-      // var maxImgSize = 512000;
       // var imgBase64 = reader.readAsDataURL(file.raw);
       // console.log(reader.readAsDataURL(file.raw));
     },

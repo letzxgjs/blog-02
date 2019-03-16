@@ -96,8 +96,6 @@ export default {
       this.init();
     },
     seeMore(item) {
-      // this.$router.push({ name: "article-detail", params: { _id: item._id } });
-      // console.log(item);
       this.$router.push({ name: "article-detail", params: item });
     }
   },

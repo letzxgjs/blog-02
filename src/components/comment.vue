@@ -36,14 +36,15 @@ export default {
   // props: ["comments"],
   mounted() {
     this.getComments();
-    console.log(this.comments.from.updateAt);
   },
   methods: {
     getComments() {
       commentsList(this.$route.params._id).then(res => {
-        if (res.data) {
-          this.comments = res.data.comment;
-        }
+        this.$nextTick(() => {
+          if (res.data) {
+            this.comments = res.data.comment;
+          }
+        });
       });
     },
     changeImg(src) {

@@ -105,10 +105,8 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
   .navbar {
-    // position: relative;
     display: flex;
     flex-wrap: wrap;
-    // height: 60px;
     border-bottom: 1px solid #e6e6e6;
     .el-menu-demo {
       height: 60px;
