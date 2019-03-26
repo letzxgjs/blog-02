@@ -22,7 +22,7 @@
     </el-col>
     <el-col :span="20">
       <router-view>
-        <template v-slot:trigger>
+        <!-- <template v-slot:trigger>
           <el-dialog
             title="上传头像"
             :visible.sync="dialogVisible"
@@ -37,7 +37,7 @@
               <el-button type="primary" @click="postImg">确 定</el-button>
             </span>
           </el-dialog>
-        </template>
+        </template>-->
       </router-view>
     </el-col>
   </div>
